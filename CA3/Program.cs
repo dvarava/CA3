@@ -5,6 +5,8 @@
  * Modified By: 
  */
 
+using System.Data.Common;
+using System.Diagnostics.Metrics;
 using static System.Console;
 
 namespace CA3
@@ -14,20 +16,28 @@ namespace CA3
         static void Main(string[] args)
         {
             int choice = GetChoice();
-            WriteLine(choice);
 
             string path = @"../../../faminefile.csv";
+            string[,] data = null;
+            List<Passenger> passengers = new List<Passenger>();
 
             try
             {
                 string[] lines = File.ReadAllLines(path);
+                int lineCount = lines.Count();
+                data = new string[lineCount, 10];
 
-                foreach (string line in lines)
+                for (int i = 1; i < lineCount; i++)
                 {
-                    string[] fields = line.Split(',');
+                    string[] columns = lines[i].Split(',');
 
+                    for (int j = 0; j < columns.Length; j++)
+                    {
+                        data[i, j] = columns[j];
+                    }
 
-                    WriteLine($"{fields[0]}");
+                    Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8]);
+                    passengers.Add(passenger);
                 }
             }
             catch (FileNotFoundException)
@@ -42,6 +52,9 @@ namespace CA3
             {
                 WriteLine(myError.Message);
             }
+
+
+            Passenger.AgeReport(passengers);
         }
 
         static int GetChoice()

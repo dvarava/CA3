@@ -11,7 +11,7 @@ namespace CA3
     {
         private string _firstName;
         private string _lastName;
-        private int _age;
+        private string _age;
         private string _sex;
         private string _occupation;
         private string _country;
@@ -20,9 +20,11 @@ namespace CA3
         private string _idNumber;
         private DateOnly _arrivalDate;
 
+        public static int infantCount;
+
         public string FirstName { get { return _firstName; } set { _firstName = value; } }
         public string LastName { get { return _lastName;} set { _lastName = value; } }
-        public int Age { get { return _age;} set { _age = value; } }
+        public string Age { get { return _age;} set { } }
         public string Sex { get { return _sex; } set { _sex = value; } }
         public string Occupation { get { return _occupation; } set { _occupation = value; } }
         public string Country { get { return _country;} set { _country = value; } }
@@ -33,7 +35,7 @@ namespace CA3
 
         public Passenger () { }
 
-        public Passenger (string firstName, string lastName, int age, string sex, string occupation, string country, string destination, string port, string idNumber, DateOnly arrivalDate)
+        public Passenger (string firstName, string lastName, string age, string sex, string occupation, string country, string destination, string port, string idNumber)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -44,40 +46,66 @@ namespace CA3
             Destination = destination;
             Port = port;
             IdNumber = idNumber;
-            ArrivalDate = arrivalDate;
         }
 
-        static void ReadFile()
+        public static void AgeReport(List<Passenger> passengers)
         {
-            string path = @"../../../faminefile.csv";
+            const string TABLE = "{0,-20}{1,-20}";
+            int infants = 0, children = 0, teenagers = 0, youngAdults = 0, adults = 0, olderAdults = 0, unknown = 0;
 
-            try
+            for (int i = 1; i < passengers.Count; i++)
             {
-                string[] lines = File.ReadAllLines(path);
+                string ageStr = "";
+                int age;
 
-                WriteLine("Temperature Report\n");
-                WriteLine("Date\t\tTemperature");
-
-                foreach (string line in lines)
+                foreach (char c in passengers[i].Age)
                 {
-                    string[] fields = line.Split(',');
+                    if (Char.IsDigit(c))
+                    {
+                        ageStr += c;
+                    }
+                }
+                age = int.Parse(ageStr);
 
-
-                    WriteLine($"{fields[0]}");
+                if (int.TryParse(passengers[i].Age, out age))
+                {
+                    if (age > 0 && age < 13)
+                    {
+                        children++;
+                    }
+                    else if (age >= 12 && age < 20)
+                    {
+                        teenagers++;
+                    }
+                    else if (age >= 20 && age < 30)
+                    {
+                        youngAdults++;
+                    }
+                    else if (age >= 30 && age < 50)
+                    {
+                        adults++;
+                    }
+                    else
+                    {
+                        olderAdults++;
+                    }
+                }
+                else if (passengers[i].Age.Contains("Infant in months"))
+                {
+                    infants++;
+                }
+                else
+                {
+                    unknown++;
                 }
             }
-            catch (FileNotFoundException)
-            {
-                WriteLine($"File not found: {path}");
-            }
-            catch (IOException)
-            {
-                WriteLine($"Error reading file: {path}");
-            }
-            catch (FormatException myError)
-            {
-                WriteLine(myError.Message);
-            }
+
+            WriteLine(TABLE, "Infants(<1 year) :\t", infants);
+            WriteLine(TABLE, "Children(1-12) :\t", children);
+            WriteLine(TABLE, "Teenagers(13-19) :\t", teenagers);
+            WriteLine(TABLE, "Young adults(20-29) :\t", youngAdults);
+            WriteLine(TABLE, "Adults(30+ years) :\t", adults);
+            WriteLine(TABLE, "Older Adults(50+ years) :\t", olderAdults);
         }
     }
 }
