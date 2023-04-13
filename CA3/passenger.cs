@@ -20,11 +20,9 @@ namespace CA3
         private string _idNumber;
         private DateOnly _arrivalDate;
 
-        public static int infantCount;
-
         public string FirstName { get { return _firstName; } set { _firstName = value; } }
         public string LastName { get { return _lastName;} set { _lastName = value; } }
-        public string Age { get { return _age;} set { } }
+        public string Age { get { return _age;} set { _age = value; } }
         public string Sex { get { return _sex; } set { _sex = value; } }
         public string Occupation { get { return _occupation; } set { _occupation = value; } }
         public string Country { get { return _country;} set { _country = value; } }
@@ -50,7 +48,7 @@ namespace CA3
 
         public static void AgeReport(List<Passenger> passengers)
         {
-            const string TABLE = "{0,-20}{1,-20}";
+            const string TABLE = "{0,-20}{1,30}";
             int infants = 0, children = 0, teenagers = 0, youngAdults = 0, adults = 0, olderAdults = 0, unknown = 0;
 
             for (int i = 1; i < passengers.Count; i++)
@@ -65,9 +63,8 @@ namespace CA3
                         ageStr += c;
                     }
                 }
-                age = int.Parse(ageStr);
 
-                if (int.TryParse(passengers[i].Age, out age))
+                if (int.TryParse(ageStr, out age))
                 {
                     if (age > 0 && age < 13)
                     {
@@ -90,22 +87,32 @@ namespace CA3
                         olderAdults++;
                     }
                 }
-                else if (passengers[i].Age.Contains("Infant in months"))
-                {
-                    infants++;
-                }
                 else
                 {
                     unknown++;
                 }
+
+                if (passengers[i].Age.Contains("Infant in months"))
+                {
+                    infants++;
+                }
             }
 
-            WriteLine(TABLE, "Infants(<1 year) :\t", infants);
-            WriteLine(TABLE, "Children(1-12) :\t", children);
-            WriteLine(TABLE, "Teenagers(13-19) :\t", teenagers);
-            WriteLine(TABLE, "Young adults(20-29) :\t", youngAdults);
-            WriteLine(TABLE, "Adults(30+ years) :\t", adults);
-            WriteLine(TABLE, "Older Adults(50+ years) :\t", olderAdults);
+            WriteLine(TABLE, "Infants(<1 year) :", infants);
+            WriteLine(TABLE, "Children(1-12) :", children);
+            WriteLine(TABLE, "Teenagers(13-19) :", teenagers);
+            WriteLine(TABLE, "Young adults(20-29) :", youngAdults);
+            WriteLine(TABLE, "Adults(30+ years) :", adults);
+            WriteLine(TABLE, "Older Adults(50+ years) :", olderAdults);
+            WriteLine(TABLE, "Unknown :", unknown);
+        }
+
+        public static void ShipReport(List<Passenger> passengers)
+        {
+            for (int i = 1; i < passengers.Count; i++)
+            {
+                WriteLine($"{passengers[i].IdNumber}");
+            }
         }
     }
 }

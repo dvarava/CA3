@@ -15,7 +15,7 @@ namespace CA3
     {
         static void Main(string[] args)
         {
-            int choice = GetChoice();
+            //int choice = GetChoice();
 
             string path = @"../../../faminefile.csv";
             string[,] data = null;
@@ -53,8 +53,26 @@ namespace CA3
                 WriteLine(myError.Message);
             }
 
+            List<string> shipNumbers = new List<string>();
+            for (int i = 1; i < passengers.Count; i++)
+            {
+                if (!shipNumbers.Contains(passengers[i].IdNumber))
+                {
+                    shipNumbers.Add(passengers[i].IdNumber);
+                }
+            }
 
-            Passenger.AgeReport(passengers);
+            while (true)
+            {
+                for (int i = 0; i < shipNumbers.Count; i++)
+                {
+                    WriteLine($"{i + 1}. {shipNumbers[i]}");
+                }
+                Write("Enter Choice: ");
+                string choiceInput = ReadLine();
+
+            }
+            //Passenger.AgeReport(passengers);
         }
 
         static int GetChoice()
