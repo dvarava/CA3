@@ -54,10 +54,12 @@ namespace CA3
             DateOnly arrivalDate;
             int passengerCount = 0;
 
-            for (int i = 1; i < passengers.Count; i++)
+            for (int i = 0; i < passengers.Count; i++)
             {
                 if (!shipNumbers.Contains(passengers[i].IdNumber))
                 {
+                    WriteLine(passengers[i].IdNumber);
+
                     shipNumbers.Add(passengers[i].IdNumber);
                 }
             }
