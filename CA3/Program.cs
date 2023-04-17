@@ -7,6 +7,7 @@
 
 using System.Data.Common;
 using System.Diagnostics.Metrics;
+using System.Globalization;
 using static System.Console;
 
 namespace CA3
@@ -36,7 +37,10 @@ namespace CA3
                         data[i, j] = columns[j];
                     }
 
-                    Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8]);
+                    DateOnly date;
+                    DateOnly.TryParse(columns[9], CultureInfo.GetCultureInfo("us-EN"), DateTimeStyles.None, out date);
+
+                    Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], date);
                     passengers.Add(passenger);
                 }
             }
@@ -53,25 +57,8 @@ namespace CA3
                 WriteLine(myError.Message);
             }
 
-            List<string> shipNumbers = new List<string>();
-            for (int i = 1; i < passengers.Count; i++)
-            {
-                if (!shipNumbers.Contains(passengers[i].IdNumber))
-                {
-                    shipNumbers.Add(passengers[i].IdNumber);
-                }
-            }
-
-            while (true)
-            {
-                for (int i = 0; i < shipNumbers.Count; i++)
-                {
-                    WriteLine($"{i + 1}. {shipNumbers[i]}");
-                }
-                Write("Enter Choice: ");
-                string choiceInput = ReadLine();
-
-            }
+            Passenger.OccupationReport(passengers);
+            //Passenger.ShipReport(passengers);
             //Passenger.AgeReport(passengers);
         }
 

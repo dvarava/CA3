@@ -33,7 +33,7 @@ namespace CA3
 
         public Passenger () { }
 
-        public Passenger (string firstName, string lastName, string age, string sex, string occupation, string country, string destination, string port, string idNumber)
+        public Passenger (string firstName, string lastName, string age, string sex, string occupation, string country, string destination, string port, string idNumber, DateOnly arrivalDate)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -44,6 +44,80 @@ namespace CA3
             Destination = destination;
             Port = port;
             IdNumber = idNumber;
+            ArrivalDate = arrivalDate;
+        }
+
+        public static void ShipReport(List<Passenger> passengers)
+        {
+            List<string> shipNumbers = new List<string>();
+            string leavingStation = "";
+            DateOnly arrivalDate;
+            int passengerCount = 0;
+
+            for (int i = 1; i < passengers.Count; i++)
+            {
+                if (!shipNumbers.Contains(passengers[i].IdNumber))
+                {
+                    shipNumbers.Add(passengers[i].IdNumber);
+                }
+            }
+
+            for (int i = 0; i < shipNumbers.Count; i++)
+            {
+                WriteLine($"{i + 1}. {shipNumbers[i]}");
+            }
+            Write("Enter Choice: ");
+            int choiceInput = int.Parse(ReadLine());
+
+            for (int i = 0; i < passengers.Count; i++)
+            {
+                if (passengers[i].IdNumber == shipNumbers[choiceInput - 1])
+                {
+                    leavingStation = passengers[i].Port;
+                    arrivalDate = passengers[i].ArrivalDate;
+                    passengerCount++;
+                }
+            }
+            WriteLine($"\n{shipNumbers[choiceInput - 1]} : leaving from {leavingStation} Arrived : {arrivalDate} with {passengerCount} passengers");
+
+            for (int i = 0; i < passengers.Count; i++)
+            {
+                if (passengers[i].IdNumber == shipNumbers[choiceInput - 1])
+                {
+                    WriteLine($"First Name {passengers[i].FirstName} : Last Name {passengers[i].LastName}");
+                }
+            }
+        }
+
+        public static void OccupationReport(List<Passenger> passengers)
+        {
+            List<string> occupationTitles = new List<string>();
+
+            for (int i = 1; i < passengers.Count; i++)
+            {
+                if (!occupationTitles.Contains(passengers[i].Occupation))
+                {
+                    occupationTitles.Add(passengers[i].Occupation);
+                }
+            }
+
+            int[] eachOccupationCount = new int[occupationTitles.Count];
+
+            for (int i = 0; i < passengers.Count; i++)
+            {
+                for (int j = 0; j < occupationTitles.Count; j++)
+                {
+                    if (passengers[i].Occupation == occupationTitles[j])
+                    {
+                        eachOccupationCount[j]++;
+                    }
+                }
+            }
+
+            for (int i = 0; i < occupationTitles.Count; i++)
+            {
+                WriteLine($"{i + 1}. {occupationTitles[i]} : {eachOccupationCount[i]}");
+            }
         }
 
         public static void AgeReport(List<Passenger> passengers)
@@ -105,14 +179,6 @@ namespace CA3
             WriteLine(TABLE, "Adults(30+ years) :", adults);
             WriteLine(TABLE, "Older Adults(50+ years) :", olderAdults);
             WriteLine(TABLE, "Unknown :", unknown);
-        }
-
-        public static void ShipReport(List<Passenger> passengers)
-        {
-            for (int i = 1; i < passengers.Count; i++)
-            {
-                WriteLine($"{passengers[i].IdNumber}");
-            }
         }
     }
 }
