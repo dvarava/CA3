@@ -16,27 +16,29 @@ namespace CA3
     {
         static void Main(string[] args)
         {
-            int choice = GetChoice();
-
-            while (choice != 4)
+            while (true)
             {
-                switch (choice)
+                int choice = GetChoice();
+
+                if (choice != 4)
                 {
-                    case 1:
-                        Passenger.ShipReport(AddInfo());
-                        break;
-                    case 2:
-                        Passenger.OccupationReport(AddInfo());
-                        break;
-                    case 3:
-                        Passenger.AgeReport(AddInfo());
-                        break;
-                    case 4:
-                        WriteLine("*** End of program ***");
-                        break;
-                    default:
-                        WriteLine("Error");
-                        break;
+                    switch (choice)
+                    {
+                        case 1:
+                            Passenger.ShipReport(AddInfo());
+                            break;
+                        case 2:
+                            Passenger.OccupationReport(AddInfo());
+                            break;
+                        case 3:
+                            Passenger.AgeReport(AddInfo());
+                            break;
+                    }
+                }
+                else
+                {
+                    WriteLine("*** End of program ***");
+                    break;
                 }
             }
         }
@@ -91,7 +93,7 @@ namespace CA3
 
             while (true)
             {
-                WriteLine("Main Menu\n" +
+                WriteLine("\nMain Menu\n" +
                     "1. Ship Reports\n" +
                     "2. Occupation Report\n" +
                     "3. Age Report\n" +
