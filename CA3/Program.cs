@@ -16,8 +16,33 @@ namespace CA3
     {
         static void Main(string[] args)
         {
-            //int choice = GetChoice();
+            int choice = GetChoice();
 
+            while (choice != 4)
+            {
+                switch (choice)
+                {
+                    case 1:
+                        Passenger.ShipReport(AddInfo());
+                        break;
+                    case 2:
+                        Passenger.OccupationReport(AddInfo());
+                        break;
+                    case 3:
+                        Passenger.AgeReport(AddInfo());
+                        break;
+                    case 4:
+                        WriteLine("*** End of program ***");
+                        break;
+                    default:
+                        WriteLine("Error");
+                        break;
+                }
+            }
+        }
+
+        static List<Passenger> AddInfo()
+        {
             string path = @"../../../faminefile.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
@@ -57,9 +82,7 @@ namespace CA3
                 WriteLine(myError.Message);
             }
 
-            Passenger.OccupationReport(passengers);
-            //Passenger.ShipReport(passengers);
-            //Passenger.AgeReport(passengers);
+            return passengers;
         }
 
         static int GetChoice()
