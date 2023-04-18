@@ -150,6 +150,7 @@ namespace CA3
             {
                 string ageStr = "";
                 int age;
+                string str = "";
 
                 foreach (char c in passengers[i].Age)
                 {
@@ -161,7 +162,11 @@ namespace CA3
 
                 if (int.TryParse(ageStr, out age))
                 {
-                    if (age > 0 && age < 13)
+                    if (passengers[i].Age.Contains("Infant in months"))
+                    {
+                        infants++;
+                    }
+                    else if (age > 0 && age < 13)
                     {
                         children++;
                     }
@@ -186,11 +191,6 @@ namespace CA3
                 {
                     unknown++;
                 }
-
-                if (passengers[i].Age.Contains("Infant in months"))
-                {
-                    infants++;
-                }
             }
 
             WriteLine("\n\t*** Age Report ***");
@@ -199,7 +199,7 @@ namespace CA3
             WriteLine(TABLE, "Teenagers(13-19) :", teenagers);
             WriteLine(TABLE, "Young adults(20-29) :", youngAdults);
             WriteLine(TABLE, "Adults(30+ years) :", adults);
-            WriteLine(TABLE, "Older Adults(50+ years) :", olderAdults);
+            WriteLine(TABLE, "Older Adults(50+) :", olderAdults);
             WriteLine(TABLE, "Unknown :", unknown);
         }
     }
