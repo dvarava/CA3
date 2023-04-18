@@ -47,7 +47,7 @@ namespace CA3
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminefile.csv";
+            string path = @"../../../faminefiletoanalyse2.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 
@@ -63,23 +63,18 @@ namespace CA3
 
                     if (columns.Length != 10)
                     {
-                        throw new FormatException($"Line does not contain 10 values, but {columns.Length} value(s)");
+                        WriteLine($"{i} line does not contain 10 values, but { columns.Length} value(s)");
+                        continue;
                     }
 
                     for (int j = 0; j < columns.Length; j++)
                     {
                         data[i, j] = columns[j];
                     }
-                    DateOnly d = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
-                    WriteLine(d.ToString("dd / MM / yyyy"));
 
-                    /**DateOnly date;
-                    if(!DateOnly.TryParse(columns[9], CultureInfo.GetCultureInfo("us-EN"), DateTimeStyles.None, out date))
-                    {
-                        throw new FormatException($"Date is in the wrong format: {date.ToString()}");
-                    }**/
+                    DateOnly date = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
 
-                    Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], d);
+                    Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], date);
                     passengers.Add(passenger);
                 }
             }
@@ -95,7 +90,7 @@ namespace CA3
             {
                 WriteLine(myError.Message);
             }
-            WriteLine(passengers[340].IdNumber);
+
             return passengers;
         }
 

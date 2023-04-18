@@ -31,8 +31,6 @@ namespace CA3
         public string IdNumber { get { return _idNumber;} set { _idNumber = value; } }
         public DateOnly ArrivalDate { get { return _arrivalDate;} set { _arrivalDate = value;} }
 
-        public Passenger () { }
-
         public Passenger (string firstName, string lastName, string age, string sex, string occupation, string country, string destination, string port, string idNumber, DateOnly arrivalDate)
         {
             FirstName = firstName;
@@ -52,14 +50,12 @@ namespace CA3
             List<string> shipNumbers = new List<string>();
             string leavingStation = "";
             DateOnly arrivalDate;
-            int passengerCount = 0;
+            int passengerCount = 0, choice;
 
             for (int i = 0; i < passengers.Count; i++)
             {
                 if (!shipNumbers.Contains(passengers[i].IdNumber))
                 {
-                    WriteLine(passengers[i].IdNumber);
-
                     shipNumbers.Add(passengers[i].IdNumber);
                 }
             }
@@ -68,23 +64,45 @@ namespace CA3
             {
                 WriteLine($"{i + 1}. {shipNumbers[i]}");
             }
-            Write("Enter Choice: ");
-            int choiceInput = int.Parse(ReadLine());
+
+            while (true)
+            {
+                Write("Enter Choice: ");
+                string choiceInput = ReadLine();
+
+                if (int.TryParse(choiceInput, out choice))
+                {
+                    if (choice > 0 && choice <= shipNumbers.Count)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        WriteLine("Wrong option! Try again\n");
+                    }
+                }
+                else
+                {
+                    WriteLine("Enter a number! Try again\n");
+                }
+            }
 
             for (int i = 0; i < passengers.Count; i++)
             {
-                if (passengers[i].IdNumber == shipNumbers[choiceInput - 1])
+                if (passengers[i].IdNumber == shipNumbers[choice - 1])
                 {
                     leavingStation = passengers[i].Port;
                     arrivalDate = passengers[i].ArrivalDate;
                     passengerCount++;
                 }
             }
-            WriteLine($"\n{shipNumbers[choiceInput - 1]} : leaving from {leavingStation} Arrived : {arrivalDate} with {passengerCount} passengers");
+
+            WriteLine("\n\t*** Ship Report ***");
+            WriteLine($"{shipNumbers[choice - 1]} : leaving from {leavingStation} Arrived : {arrivalDate} with {passengerCount} passengers");
 
             for (int i = 0; i < passengers.Count; i++)
             {
-                if (passengers[i].IdNumber == shipNumbers[choiceInput - 1])
+                if (passengers[i].IdNumber == shipNumbers[choice - 1])
                 {
                     WriteLine($"First Name {passengers[i].FirstName} : Last Name {passengers[i].LastName}");
                 }
@@ -116,6 +134,7 @@ namespace CA3
                 }
             }
 
+            WriteLine("\n\t*** Occupation Report ***");
             for (int i = 0; i < occupationTitles.Count; i++)
             {
                 WriteLine($"{i + 1}. {occupationTitles[i]} : {eachOccupationCount[i]}");
@@ -174,6 +193,7 @@ namespace CA3
                 }
             }
 
+            WriteLine("\n\t*** Age Report ***");
             WriteLine(TABLE, "Infants(<1 year) :", infants);
             WriteLine(TABLE, "Children(1-12) :", children);
             WriteLine(TABLE, "Teenagers(13-19) :", teenagers);
