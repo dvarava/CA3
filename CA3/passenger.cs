@@ -150,7 +150,6 @@ namespace CA3
             {
                 string ageStr = "";
                 int age;
-                string str = "";
 
                 foreach (char c in passengers[i].Age)
                 {

@@ -1,7 +1,7 @@
 ﻿/* Name:            CA3
  * Author:          Deniels Varava
  * Date Created :   03/04/23
- * Purpose:         Ships
+ * Purpose:         Allow the user to explore passenger data from ships who sailed to New York during the 1800s
  * Modified By: 
  */
 
@@ -18,7 +18,7 @@ namespace CA3
         {
             List<Passenger> passengers = AddInfo();
 
-            WriteLine("---A program to ---");
+            WriteLine("---A program to to allow the user to explore passenger data from ships who sailed to New York during the 1800s---");
 
             while (true)
             {
@@ -49,7 +49,7 @@ namespace CA3
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminefile.csv";
+            string path = @"../../../faminefiletoanalyse2.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 
@@ -75,6 +75,10 @@ namespace CA3
                     }
 
                     DateOnly date = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
+                    if (DateOnly.TryParse(data[1,9], CultureInfo.GetCultureInfo("us-EN"), DateTimeStyles.None, out date))
+                    {
+                        WriteLine("Date is in the wrong format");
+                    }
 
                     Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], date);
                     passengers.Add(passenger);
