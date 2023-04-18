@@ -18,6 +18,8 @@ namespace CA3
         {
             List<Passenger> passengers = AddInfo();
 
+            WriteLine("---A program to ---");
+
             while (true)
             {
                 int choice = GetChoice();
@@ -47,7 +49,7 @@ namespace CA3
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminefiletoanalyse2.csv";
+            string path = @"../../../faminefile.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 

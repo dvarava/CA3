@@ -146,7 +146,7 @@ namespace CA3
             const string TABLE = "{0,-20}{1,30}";
             int infants = 0, children = 0, teenagers = 0, youngAdults = 0, adults = 0, olderAdults = 0, unknown = 0;
 
-            for (int i = 1; i < passengers.Count; i++)
+            for (int i = 0; i < passengers.Count; i++)
             {
                 string ageStr = "";
                 int age;
