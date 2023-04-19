@@ -53,7 +53,7 @@ namespace CA3
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminfiletoanalyse2.csv";
+            string path = @"../../../faminefiletoanalyse2.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 
