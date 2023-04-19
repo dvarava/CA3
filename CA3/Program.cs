@@ -14,42 +14,46 @@ namespace CA3
 {
     internal class Program
     {
+        static bool exceptionCaught = false;
         static void Main(string[] args)
         {
             List<Passenger> passengers = AddInfo();
 
-            WriteLine("---A program to to allow the user to explore passenger data from ships who sailed to New York during the 1800s---");
-
-            while (true)
+            if (!exceptionCaught)
             {
-                int choice = GetChoice();
+                WriteLine("---A program to to allow the user to explore passenger data from ships who sailed to New York during the 1800s---");
 
-                if (choice != 4)
+                while (true)
                 {
-                    switch (choice)
+                    int choice = GetChoice();
+
+                    if (choice != 4)
                     {
-                        case 1:
-                            Passenger.ShipReport(passengers);
-                            break;
-                        case 2:
-                            Passenger.OccupationReport(passengers);
-                            break;
-                        case 3:
-                            Passenger.AgeReport(passengers);
-                            break;
+                        switch (choice)
+                        {
+                            case 1:
+                                Passenger.ShipReport(passengers);
+                                break;
+                            case 2:
+                                Passenger.OccupationReport(passengers);
+                                break;
+                            case 3:
+                                Passenger.AgeReport(passengers);
+                                break;
+                        }
                     }
-                }
-                else
-                {
-                    WriteLine("*** End of program ***");
-                    break;
+                    else
+                    {
+                        WriteLine("*** End of program ***");
+                        break;
+                    }
                 }
             }
         }
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminefile.csv";
+            string path = @"../../../faminfiletoanalyse2.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 
@@ -79,9 +83,10 @@ namespace CA3
                     {
                         date = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
                     }
-                    catch (FormatException myError)
+                    catch (FormatException)
                     {
-                        WriteLine("Error: " + myError.Message);
+                        WriteLine($"{i} line has date ({data[i,9]}) in incorrect format");
+                        continue;
                     }
 
                     Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], date);
@@ -91,14 +96,17 @@ namespace CA3
             catch (FileNotFoundException)
             {
                 WriteLine($"File not found: {path}");
+                exceptionCaught = true;
             }
             catch (IOException)
             {
                 WriteLine($"Error reading file: {path}");
+                exceptionCaught = true;
             }
             catch (FormatException myError)
             {
                 WriteLine(myError.Message);
+                exceptionCaught = true;
             }
 
             return passengers;
