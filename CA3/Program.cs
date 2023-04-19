@@ -49,7 +49,7 @@ namespace CA3
                     }
                 }
             }
-        }
+        } // end of the Main method
 
         static List<Passenger> AddInfo()
         {
@@ -110,7 +110,7 @@ namespace CA3
             }
 
             return passengers;
-        }
+        } // end of the AddInfo method
 
         static int GetChoice()
         {
@@ -145,6 +145,6 @@ namespace CA3
             }
 
             return choice;
-        }
+        } // end of the GetChoice method
     }
 }

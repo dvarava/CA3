@@ -107,7 +107,7 @@ namespace CA3
                     WriteLine($"First Name {passengers[i].FirstName} : Last Name {passengers[i].LastName}");
                 }
             }
-        }
+        } // end of the ShipReport method
 
         public static void OccupationReport(List<Passenger> passengers)
         {
@@ -139,7 +139,7 @@ namespace CA3
             {
                 WriteLine($"{i + 1}. {occupationTitles[i]} : {eachOccupationCount[i]}");
             }
-        }
+        } // end of the Occupation Report method
 
         public static void AgeReport(List<Passenger> passengers)
         {
@@ -200,6 +200,6 @@ namespace CA3
             WriteLine(TABLE, "Adults(30+ years) :", adults);
             WriteLine(TABLE, "Older Adults(50+) :", olderAdults);
             WriteLine(TABLE, "Unknown :", unknown);
-        }
+        } // end of the AgeReport method
     }
 }
