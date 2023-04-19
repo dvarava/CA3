@@ -49,7 +49,7 @@ namespace CA3
 
         static List<Passenger> AddInfo()
         {
-            string path = @"../../../faminefiletoanalyse2.csv";
+            string path = @"../../../faminefile.csv";
             string[,] data = null;
             List<Passenger> passengers = new List<Passenger>();
 
@@ -58,6 +58,7 @@ namespace CA3
                 string[] lines = File.ReadAllLines(path);
                 int lineCount = lines.Count();
                 data = new string[lineCount, 10];
+                DateOnly date;
 
                 for (int i = 1; i < lineCount; i++)
                 {
@@ -74,10 +75,13 @@ namespace CA3
                         data[i, j] = columns[j];
                     }
 
-                    DateOnly date = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
-                    if (DateOnly.TryParse(data[1,9], CultureInfo.GetCultureInfo("us-EN"), DateTimeStyles.None, out date))
+                    try
                     {
-                        WriteLine("Date is in the wrong format");
+                        date = DateOnly.ParseExact(data[i, 9], "MM/dd/yyyy", null);
+                    }
+                    catch (FormatException myError)
+                    {
+                        WriteLine("Error: " + myError.Message);
                     }
 
                     Passenger passenger = new Passenger(data[i, 0], data[i, 1], data[i, 2], data[i, 3], data[i, 4], data[i, 5], data[i, 6], data[i, 7], data[i, 8], date);
